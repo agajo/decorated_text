@@ -73,7 +73,9 @@ class _DecoratedGoogleFontTextState extends State<DecoratedGoogleFontText> {
 
   @override
   Widget build(BuildContext context) {
-    assert(widget.fillColor == null || widget.fillGradient == null);
+    if (widget.fillColor != null && widget.fillGradient != null) {
+      throw StateError('You cannot set both fillColor and fillGradient.');
+    }
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       final textRenderBox =
           _textGlobalKey.currentContext.findRenderObject() as RenderBox;
