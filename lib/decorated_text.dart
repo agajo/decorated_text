@@ -114,8 +114,7 @@ class _DecoratedGoogleFontTextState extends State<DecoratedGoogleFontText> {
                 : widget.fillGradient != null
                     ? (Paint()
                       ..shader = widget.fillGradient.createShader(_rect))
-                    : Paint()
-              ..color = Colors.black,
+                    : (Paint()..color = Colors.black),
           ),
         ),
       ],
