@@ -1,6 +1,6 @@
 library decorated_text;
 
-import 'dart:ui';
+import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
 
@@ -40,7 +40,7 @@ class DecoratedText extends StatelessWidget {
   }
 }
 
-class DecoratedGoogleFontText extends StatefulWidget {
+class DecoratedGoogleFontText extends StatelessWidget {
   const DecoratedGoogleFontText(
     this.text, {
     @required this.fontMethod,
@@ -63,60 +63,54 @@ class DecoratedGoogleFontText extends StatefulWidget {
   final List<Shadow> shadows;
 
   @override
-  _DecoratedGoogleFontTextState createState() =>
-      _DecoratedGoogleFontTextState();
-}
-
-class _DecoratedGoogleFontTextState extends State<DecoratedGoogleFontText> {
-  final GlobalKey _textGlobalKey = GlobalKey();
-  Rect _rect = Rect.zero;
-
-  @override
   Widget build(BuildContext context) {
-    if (widget.fillColor != null && widget.fillGradient != null) {
+    if (fillColor != null && fillGradient != null) {
       throw StateError('You cannot set both fillColor and fillGradient.');
     }
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      final textRenderBox =
-          _textGlobalKey.currentContext.findRenderObject() as RenderBox;
-      assert(textRenderBox.hasSize);
-      final offset = textRenderBox.localToGlobal(Offset.zero);
-      final size = textRenderBox.size;
-      final textRect =
-          Rect.fromLTWH(offset.dx, offset.dy, size.width, size.height);
-      if (_rect != textRect) {
-        setState(() {
-          _rect = textRect;
-        });
-      }
-    });
+
     return Stack(
       children: [
-        if (widget.borderWidth != null)
-          Text(
-            widget.text,
-            style: widget.fontMethod(
-                fontWeight: widget.fontWeight ?? FontWeight.w500,
-                fontSize: widget.fontSize ?? 20,
-                shadows: widget.shadows,
-                foreground: Paint()
-                  ..style = PaintingStyle.stroke
-                  // Double the thickness beforehand, as the inner half will be filled in and disappear.
-                  ..strokeWidth = widget.borderWidth * 2
-                  ..color = widget.borderColor ?? Colors.black),
+        if (borderWidth != null)
+          // Some fonts overflow the bound, so padding is added to paint it.
+          Padding(
+            padding:
+                EdgeInsets.only(right: fontSize != null ? fontSize / 2 : 10),
+            child: Text(
+              text,
+              style: fontMethod(
+                  fontWeight: fontWeight ?? FontWeight.w500,
+                  fontSize: fontSize ?? 20,
+                  shadows: shadows,
+                  foreground: Paint()
+                    ..style = PaintingStyle.stroke
+                    // Double the thickness beforehand, as the inner half will be filled in and disappear.
+                    ..strokeWidth = borderWidth * 2
+                    ..color = borderColor ?? Colors.black),
+            ),
           ),
-        Text(
-          widget.text,
-          key: _textGlobalKey,
-          style: widget.fontMethod(
-            fontWeight: widget.fontWeight ?? FontWeight.w500,
-            fontSize: widget.fontSize ?? 20,
-            foreground: widget.fillColor != null
-                ? (Paint()..color = widget.fillColor)
-                : widget.fillGradient != null
-                    ? (Paint()
-                      ..shader = widget.fillGradient.createShader(_rect))
-                    : (Paint()..color = Colors.black),
+        ShaderMask(
+          blendMode: BlendMode.srcATop,
+          shaderCallback: (bound) {
+            if (fillGradient != null) {
+              return fillGradient.createShader(bound.expandToInclude(bound));
+            } else {
+              return LinearGradient(colors: [fillColor, fillColor])
+                  .createShader(Rect.zero);
+            }
+          },
+          // Some fonts overflow the bound, so padding is added to paint it.
+          child: Padding(
+            padding:
+                EdgeInsets.only(right: fontSize != null ? fontSize / 2 : 10),
+            child: Text(
+              text,
+              style: fontMethod(
+                // Default text color is not complete black, so it's necessary to fill with true black.
+                color: Colors.black,
+                fontWeight: fontWeight ?? FontWeight.w500,
+                fontSize: fontSize ?? 20,
+              ),
+            ),
           ),
         ),
       ],
@@ -139,7 +133,7 @@ typedef GoogleFontStaticMethod = TextStyle Function(
     Paint foreground,
     Paint background,
     List<Shadow> shadows,
-    List<FontFeature> fontFeatures,
+    List<ui.FontFeature> fontFeatures,
     TextDecoration decoration,
     Color decorationColor,
     TextDecorationStyle decorationStyle,
@@ -160,7 +154,7 @@ TextStyle _defaultFontMethod(
     Paint foreground,
     Paint background,
     List<Shadow> shadows,
-    List<FontFeature> fontFeatures,
+    List<ui.FontFeature> fontFeatures,
     TextDecoration decoration,
     Color decorationColor,
     TextDecorationStyle decorationStyle,
