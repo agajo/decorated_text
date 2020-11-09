@@ -1,8 +1,8 @@
 name: decorated_text
 description: Decorates your text. You can add gradients inside and color in the outline. You can also use GoogleFonts.
 version: 0.0.1
-author:
-homepage:
+homepage: https://twitter.com/agajo_tech
+repository: https://github.com/agajo/decorated_text
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
