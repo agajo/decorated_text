@@ -1,14 +1,60 @@
 # decorated_text
 
+![スクリーンショット 2020-11-10 16 45 05](https://user-images.githubusercontent.com/12369062/98644768-525df580-2374-11eb-90bb-c03d6c9b3b4d.png)
+
 Decorates your text. You can add gradients inside and color in the outline. You can also use GoogleFonts.
 
-## Getting Started
+Unlike other similar methods, you don't need to specify a position for Gradient.
 
-This project is a starting point for a Dart
-[package](https://flutter.dev/developing-packages/),
-a library module containing code that can be shared easily across
-multiple Flutter or Dart projects.
+## What you can do with this package
 
-For help getting started with Flutter, view our 
-[online documentation](https://flutter.dev/docs), which offers tutorials, 
-samples, guidance on mobile development, and a full API reference.
+You can easily add borders, gradients, and shadows to Text. These are harder than you might think to do with Flutter's features alone.
+You don't have to go through the hassle of getting the Text bound and passing it to createShader.
+You can apply this to GoogleFont as well. You can also use IDE completion when choosing a font name.
+It follows transforms such as scaling and rotating.
+
+## Usage
+
+
+```dart
+DecoratedText(
+  'Decorated Text',
+  borderColor: Colors.amber,
+  borderWidth: 3,
+  fontSize: 40,
+  fontWeight: FontWeight.w800,
+  shadows: [
+    Shadow(
+        color: Colors.black, blurRadius: 4, offset: Offset(4, 4))
+  ],
+  fillGradient: LinearGradient(colors: [Colors.blue, Colors.red]),
+)
+```
+
+### with GoogleFonts
+
+```dart
+DecoratedGoogleFontText(
+  'Decorated Google Font',
+  fontMethod: GoogleFonts.rancho,
+  fontSize: 40,
+  fontWeight: FontWeight.w800,
+  borderWidth: 1.5,
+  borderColor: Colors.yellow[800],
+  shadows: const [
+    Shadow(
+        color: Colors.black, blurRadius: 4, offset: Offset(4, 4))
+  ],
+  fillGradient: LinearGradient(
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
+    stops: const [0.2, 0.55, 0.55, 0.75],
+    colors: [
+      Colors.white,
+      Colors.yellow[500],
+      Colors.yellow[800],
+      Colors.yellow[500]
+    ],
+  ),
+)
+```
