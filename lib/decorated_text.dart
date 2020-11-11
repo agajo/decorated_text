@@ -1,9 +1,26 @@
+/// A package to decorate your text easily.
 library decorated_text;
 
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
 
+/// A Widget to decorate your text.
+///
+/// ```dart
+/// DecoratedText(
+///   'Decorated Text',
+///   borderColor: Colors.amber,
+///   borderWidth: 3,
+///   fontSize: 40,
+///   fontWeight: FontWeight.w800,
+///   shadows: [
+///     Shadow(
+///         color: Colors.black, blurRadius: 4, offset: Offset(4, 4))
+///   ],
+///   fillGradient: LinearGradient(colors: [Colors.blue, Colors.red]),
+/// )
+/// ```
 class DecoratedText extends StatelessWidget {
   const DecoratedText(
     this.text, {
@@ -15,13 +32,29 @@ class DecoratedText extends StatelessWidget {
     this.borderColor,
     this.shadows,
   });
+
+  /// Your text to be decorated.
   final String text;
+
+  /// Font size.
   final double fontSize;
+
+  /// Border width.
   final double borderWidth;
+
+  /// Gradient to fill your text. Don't set this with fillColor.
   final Gradient fillGradient;
+
+  /// Color to fill your text. Don't set this with fillGradient.
   final Color fillColor;
+
+  /// Font weight.
   final FontWeight fontWeight;
+
+  /// Border color.
   final Color borderColor;
+
+  /// Shadows.
   final List<Shadow> shadows;
 
   @override
@@ -40,6 +73,33 @@ class DecoratedText extends StatelessWidget {
   }
 }
 
+/// A Widget to decorate your text with Google Fonts.
+///
+/// ```dart
+/// DecoratedGoogleFontText(
+///   'Decorated Google Font',
+///   fontMethod: GoogleFonts.rancho, // NG: GoogleFonts.rancho()
+///   fontSize: 40,
+///   fontWeight: FontWeight.w800,
+///   borderWidth: 1.5,
+///   borderColor: Colors.yellow[800],
+///   shadows: const [
+///     Shadow(
+///         color: Colors.black, blurRadius: 4, offset: Offset(4, 4))
+///   ],
+///   fillGradient: LinearGradient(
+///     begin: Alignment.topCenter,
+///     end: Alignment.bottomCenter,
+///     stops: const [0.2, 0.55, 0.55, 0.75],
+///     colors: [
+///       Colors.white,
+///       Colors.yellow[500],
+///       Colors.yellow[800],
+///       Colors.yellow[500]
+///     ],
+///   ),
+/// )
+/// ```
 class DecoratedGoogleFontText extends StatelessWidget {
   const DecoratedGoogleFontText(
     this.text, {
@@ -52,14 +112,33 @@ class DecoratedGoogleFontText extends StatelessWidget {
     this.borderColor,
     this.shadows,
   });
+
+  /// Pass the static method of the google_fonts package.
+  /// Do not write "()".
   final GoogleFontStaticMethod fontMethod;
+
+  /// Your text to be decorated.
   final String text;
+
+  /// Font size.
   final double fontSize;
+
+  /// Border width.
   final double borderWidth;
+
+  /// Gradient to fill your text. Don't set this with fillColor.
   final Gradient fillGradient;
+
+  /// Color to fill your text. Don't set this with fillGradient.
   final Color fillColor;
+
+  /// Font weight.
   final FontWeight fontWeight;
+
+  /// Border color.
   final Color borderColor;
+
+  /// Shadows.
   final List<Shadow> shadows;
 
   @override
@@ -118,6 +197,7 @@ class DecoratedGoogleFontText extends StatelessWidget {
   }
 }
 
+/// A type that represents the static methods of the google_fonts package.
 typedef GoogleFontStaticMethod = TextStyle Function(
     {TextStyle textStyle,
     Color color,
@@ -139,6 +219,7 @@ typedef GoogleFontStaticMethod = TextStyle Function(
     TextDecorationStyle decorationStyle,
     double decorationThickness});
 
+/// GoogleFontStaticMethod for passing to fontMethod if you don't use the google_fonts package.
 TextStyle _defaultFontMethod(
     {TextStyle textStyle,
     Color color,
