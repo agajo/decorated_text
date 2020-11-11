@@ -9,8 +9,11 @@ Unlike other similar methods, you don't need to specify a position for Gradient.
 ## What you can do with this package
 
 You can easily add borders, gradients, and shadows to Text. These are harder than you might think to do with Flutter's features alone.
+
 You don't have to go through the hassle of getting the Text bound and passing it to createShader.
+
 You can apply this to GoogleFont as well. You can also use IDE completion when choosing a font name.
+
 It follows transforms such as scaling and rotating.
 
 ## Usage
